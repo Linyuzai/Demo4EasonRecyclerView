@@ -10,6 +10,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.linyuzai.easonrecyclerview.EasonRecyclerView;
 import com.linyuzai.easonrecyclerview.IndexBar;
@@ -46,7 +47,7 @@ public class MainActivity extends AppCompatActivity {
         //addContentView();
         IndexBar.Config config = null;//new IndexBar.Config();
         //config.background(Color.LTGRAY).
-        EasonRecyclerView eason = new EasonRecyclerView(this);
+        final EasonRecyclerView eason = new EasonRecyclerView(this);
         setContentView(eason, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
         eason.setLayoutManager(new LinearLayoutManager(this));
         eason.getSmartRefreshLayout().setRefreshHeader(new ClassicsHeader(this));
@@ -64,6 +65,12 @@ public class MainActivity extends AppCompatActivity {
         });
         eason.setOverlayStyleAtCenter();
         adapter = new EasonAdapter();
+        adapter.setOnItemContentClickListener(new IndexableAdapter.OnItemContentClickListener<IndexData>() {
+            @Override
+            public void onItemClick(View v, int originalPosition, int currentPosition, IndexData entity) {
+                Toast.makeText(MainActivity.this, entity.name, Toast.LENGTH_SHORT).show();
+            }
+        });
         eason.setAdapter(adapter);
         list1 = new ArrayList<>();
         list2 = new ArrayList<>();

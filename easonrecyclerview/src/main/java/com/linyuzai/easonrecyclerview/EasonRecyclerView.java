@@ -59,7 +59,7 @@ public class EasonRecyclerView extends FrameLayout {
     static final String INDEX_SIGN = "#";
 
     private Context mContext;
-    private boolean mShowAllLetter = true;
+    private boolean mShowAllLetter = false;
 
     private ExecutorService mExecutorService;
     private Future mFuture;
