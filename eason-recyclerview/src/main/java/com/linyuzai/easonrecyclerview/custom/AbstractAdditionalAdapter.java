@@ -1,11 +1,12 @@
-package com.linyuzai.easonrecyclerview;
+package com.linyuzai.easonrecyclerview.custom;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.linyuzai.easonrecyclerview.rx.HeaderFooterDataObservable;
-import com.linyuzai.easonrecyclerview.rx.HeaderFooterDataObserver;
+import com.linyuzai.easonrecyclerview.index.IndexableWrapper;
+import com.linyuzai.easonrecyclerview.rx.AdditionalDataObservable;
+import com.linyuzai.easonrecyclerview.rx.AdditionalDataObserver;
 import com.linyuzai.easonrecyclerview.rx.IndexBarDataObservable;
 import com.linyuzai.easonrecyclerview.rx.IndexBarDataObserver;
 
@@ -16,8 +17,8 @@ import java.util.List;
  * Created by YoKey on 16/10/16.
  */
 
-abstract class AbstractHeaderFooterAdapter<T> {
-    private final HeaderFooterDataObservable mDataSetObservable = new HeaderFooterDataObservable();
+public abstract class AbstractAdditionalAdapter<T> {
+    private final AdditionalDataObservable mDataSetObservable = new AdditionalDataObservable();
     private final IndexBarDataObservable mIndexBarDataSetObservable = new IndexBarDataObservable();
 
     ArrayList<IndexableWrapper<T>> mIndexableWrapperList = new ArrayList<>();
@@ -33,7 +34,7 @@ abstract class AbstractHeaderFooterAdapter<T> {
      * @param indexTitle IndexTitle
      * @param datas      数据源
      */
-    public AbstractHeaderFooterAdapter(String index, String indexTitle, List<T> datas) {
+    public AbstractAdditionalAdapter(String index, String indexTitle, List<T> datas) {
         this.mIndex = index;
         this.mIndexTitle = indexTitle;
 
@@ -144,16 +145,16 @@ abstract class AbstractHeaderFooterAdapter<T> {
 //        // TODO: 16/10/27
 //    }
 
-    OnItemClickListener<T> getOnItemClickListener() {
+    public OnItemClickListener<T> getOnItemClickListener() {
         return mListener;
     }
 
 
-    OnItemLongClickListener getOnItemLongClickListener() {
+    public OnItemLongClickListener getOnItemLongClickListener() {
         return mLongListener;
     }
 
-    ArrayList<IndexableWrapper<T>> getDatas() {
+    public ArrayList<IndexableWrapper<T>> getDatas() {
         for (IndexableWrapper<T> wrapper : mIndexableWrapperList) {
             if (wrapper.getItemType() == IndexableWrapper.TYPE_CONTENT) {
                 wrapper.setItemType(getItemViewType());
@@ -162,27 +163,27 @@ abstract class AbstractHeaderFooterAdapter<T> {
         return mIndexableWrapperList;
     }
 
-    void registerDataSetObserver(HeaderFooterDataObserver observer) {
+    public void registerDataSetObserver(AdditionalDataObserver observer) {
         mDataSetObservable.registerObserver(observer);
     }
 
-    void unregisterDataSetObserver(HeaderFooterDataObserver observer) {
+    public void unregisterDataSetObserver(AdditionalDataObserver observer) {
         mDataSetObservable.unregisterObserver(observer);
     }
 
-    void registerIndexBarDataSetObserver(IndexBarDataObserver observer) {
+    public void registerIndexBarDataSetObserver(IndexBarDataObserver observer) {
         mIndexBarDataSetObservable.registerObserver(observer);
     }
 
-    void unregisterIndexBarDataSetObserver(IndexBarDataObserver observer) {
+    public void unregisterIndexBarDataSetObserver(IndexBarDataObserver observer) {
         mIndexBarDataSetObservable.unregisterObserver(observer);
     }
 
-    interface OnItemClickListener<T> {
+    public interface OnItemClickListener<T> {
         void onItemClick(View v, int currentPosition, T entity);
     }
 
-    interface OnItemLongClickListener<T> {
+    public interface OnItemLongClickListener<T> {
         boolean onItemLongClick(View v, int currentPosition, T entity);
     }
 }

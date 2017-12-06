@@ -1,13 +1,15 @@
-package com.linyuzai.easonrecyclerview;
+package com.linyuzai.easonrecyclerview.index;
 
 import android.support.annotation.NonNull;
+
+import com.linyuzai.easonrecyclerview.util.PinyinUtil;
 
 import java.util.Comparator;
 
 /**
  * Created by YoKey on 16/10/7.
  */
-class PinyinComparator<T extends Indexable> implements Comparator<IndexableWrapper<T>> {
+public class PinyinComparator<T extends Indexable> implements Comparator<IndexableWrapper<T>> {
 
     @Override
     public int compare(IndexableWrapper<T> lhs, IndexableWrapper<T> rhs) {

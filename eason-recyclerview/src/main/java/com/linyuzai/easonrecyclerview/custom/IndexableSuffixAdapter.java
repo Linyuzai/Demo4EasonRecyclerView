@@ -1,4 +1,6 @@
-package com.linyuzai.easonrecyclerview;
+package com.linyuzai.easonrecyclerview.custom;
+
+import com.linyuzai.easonrecyclerview.index.IndexableWrapper;
 
 import java.util.List;
 
@@ -6,9 +8,9 @@ import java.util.List;
  * FooterView Adapter
  * Created by YoKey on 16/10/14.
  */
-public abstract class IndexableFooterAdapter<T> extends AbstractHeaderFooterAdapter<T> {
+public abstract class IndexableSuffixAdapter<T> extends AbstractAdditionalAdapter<T> {
 
-    public IndexableFooterAdapter(String index, String indexTitle, List<T> datas) {
+    public IndexableSuffixAdapter(String index, String indexTitle, List<T> datas) {
         super(index, indexTitle, datas);
     }
 

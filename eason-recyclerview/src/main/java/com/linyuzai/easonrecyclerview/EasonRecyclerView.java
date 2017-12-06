@@ -26,8 +26,15 @@ import android.view.WindowManager;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
+import com.linyuzai.easonrecyclerview.custom.IndexableSuffixAdapter;
+import com.linyuzai.easonrecyclerview.custom.IndexablePrefixAdapter;
+import com.linyuzai.easonrecyclerview.index.Indexable;
+import com.linyuzai.easonrecyclerview.index.IndexableWrapper;
+import com.linyuzai.easonrecyclerview.index.InitialComparator;
+import com.linyuzai.easonrecyclerview.index.PinyinComparator;
+import com.linyuzai.easonrecyclerview.util.PinyinUtil;
 import com.linyuzai.easonrecyclerview.rx.DataObserver;
-import com.linyuzai.easonrecyclerview.rx.HeaderFooterDataObserver;
+import com.linyuzai.easonrecyclerview.rx.AdditionalDataObserver;
 import com.linyuzai.easonrecyclerview.rx.IndexBarDataObserver;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 
@@ -97,7 +104,7 @@ public class EasonRecyclerView extends FrameLayout {
     private Comparator mComparator;
     private Handler mHandler;
 
-    private HeaderFooterDataObserver<IndexableWrapper> mHeaderFooterDataSetObserver = new HeaderFooterDataObserver<IndexableWrapper>() {
+    private AdditionalDataObserver<IndexableWrapper> mHeaderFooterDataSetObserver = new AdditionalDataObserver<IndexableWrapper>() {
         @Override
         public void onChanged() {
             if (mRealAdapter == null) return;
@@ -204,7 +211,7 @@ public class EasonRecyclerView extends FrameLayout {
     /**
      * add HeaderView Adapter
      */
-    public <T> void addHeaderAdapter(IndexableHeaderAdapter<T> adapter) {
+    public <T> void addHeaderAdapter(IndexablePrefixAdapter<T> adapter) {
         adapter.registerDataSetObserver(mHeaderFooterDataSetObserver);
         adapter.registerIndexBarDataSetObserver(mIndexBarDataSetObserver);
         mRealAdapter.addIndexableHeaderAdapter(adapter);
@@ -213,7 +220,7 @@ public class EasonRecyclerView extends FrameLayout {
     /**
      * removeData HeaderView Adapter
      */
-    public <T> void removeHeaderAdapter(IndexableHeaderAdapter<T> adapter) {
+    public <T> void removeHeaderAdapter(IndexablePrefixAdapter<T> adapter) {
         try {
             adapter.unregisterDataSetObserver(mHeaderFooterDataSetObserver);
             adapter.unregisterIndexBarDataSetObserver(mIndexBarDataSetObserver);
@@ -225,7 +232,7 @@ public class EasonRecyclerView extends FrameLayout {
     /**
      * add FooterView Adapter
      */
-    public <T> void addFooterAdapter(IndexableFooterAdapter<T> adapter) {
+    public <T> void addFooterAdapter(IndexableSuffixAdapter<T> adapter) {
         adapter.registerDataSetObserver(mHeaderFooterDataSetObserver);
         adapter.registerIndexBarDataSetObserver(mIndexBarDataSetObserver);
         mRealAdapter.addIndexableFooterAdapter(adapter);
@@ -234,7 +241,7 @@ public class EasonRecyclerView extends FrameLayout {
     /**
      * removeData FooterView Adapter
      */
-    public <T> void removeFooterAdapter(IndexableFooterAdapter<T> adapter) {
+    public <T> void removeFooterAdapter(IndexableSuffixAdapter<T> adapter) {
         try {
             adapter.unregisterDataSetObserver(mHeaderFooterDataSetObserver);
             adapter.unregisterIndexBarDataSetObserver(mIndexBarDataSetObserver);

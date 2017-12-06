@@ -23,7 +23,7 @@ import android.database.Observable;
  * that provides methods for sending notifications to a list of
  * {@link DataObserver} objects.
  */
-public class HeaderFooterDataObservable extends Observable<HeaderFooterDataObserver> {
+public class AdditionalDataObservable extends Observable<AdditionalDataObserver> {
 
     /**
      * Invokes {@link DataObserver#onChanged} on each observer.

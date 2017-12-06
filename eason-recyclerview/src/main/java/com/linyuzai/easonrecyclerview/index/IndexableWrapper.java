@@ -1,14 +1,14 @@
-package com.linyuzai.easonrecyclerview;
+package com.linyuzai.easonrecyclerview.index;
 
 /**
  * Created by YoKey on 16/10/6.
  */
 public class IndexableWrapper<T> {
-    static final int TYPE_TITLE = Integer.MAX_VALUE - 1;
-    static final int TYPE_CONTENT = Integer.MAX_VALUE;
+    public static final int TYPE_TITLE = Integer.MAX_VALUE - 1;
+    public static final int TYPE_CONTENT = Integer.MAX_VALUE;
 
-    static final int TYPE_HEADER = 1;
-    static final int TYPE_FOOTER = 2;
+    public static final int TYPE_HEADER = 1;
+    public static final int TYPE_FOOTER = 2;
 
     private String index;
     private String indexTitle;
@@ -19,10 +19,10 @@ public class IndexableWrapper<T> {
     private int itemType = TYPE_CONTENT;
     private int headerFooterType;
 
-    IndexableWrapper() {
+    public IndexableWrapper() {
     }
 
-    IndexableWrapper(String index, int itemType) {
+    public IndexableWrapper(String index, int itemType) {
         this.index = index;
         this.indexTitle = index;
         this.pinyin = index;
@@ -33,7 +33,7 @@ public class IndexableWrapper<T> {
         return index;
     }
 
-    void setIndex(String index) {
+    public void setIndex(String index) {
         this.index = index;
     }
 
@@ -41,7 +41,7 @@ public class IndexableWrapper<T> {
         return indexTitle;
     }
 
-    void setIndexTitle(String indexTitle) {
+    public void setIndexTitle(String indexTitle) {
         this.indexTitle = indexTitle;
     }
 
@@ -49,7 +49,7 @@ public class IndexableWrapper<T> {
         return pinyin;
     }
 
-    void setPinyin(String pinyin) {
+    public void setPinyin(String pinyin) {
         this.pinyin = pinyin;
     }
 
@@ -57,7 +57,7 @@ public class IndexableWrapper<T> {
         return indexByField;
     }
 
-    void setIndexByField(String indexByField) {
+    public void setIndexByField(String indexByField) {
         this.indexByField = indexByField;
     }
 
@@ -65,7 +65,7 @@ public class IndexableWrapper<T> {
         return data;
     }
 
-    void setData(T data) {
+    public void setData(T data) {
         this.data = data;
     }
 
@@ -73,23 +73,23 @@ public class IndexableWrapper<T> {
         return originalPosition;
     }
 
-    void setOriginalPosition(int originalPosition) {
+    public void setOriginalPosition(int originalPosition) {
         this.originalPosition = originalPosition;
     }
 
-    int getItemType() {
+    public int getItemType() {
         return itemType;
     }
 
-    void setItemType(int itemType) {
+    public void setItemType(int itemType) {
         this.itemType = itemType;
     }
 
-    int getHeaderFooterType() {
+    public int getHeaderFooterType() {
         return headerFooterType;
     }
 
-    void setHeaderFooterType(int headerFooterType) {
+    public void setHeaderFooterType(int headerFooterType) {
         this.headerFooterType = headerFooterType;
     }
 

@@ -4,6 +4,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.linyuzai.easonrecyclerview.index.Indexable;
+import com.linyuzai.easonrecyclerview.index.IndexableWrapper;
 import com.linyuzai.easonrecyclerview.rx.DataObservable;
 import com.linyuzai.easonrecyclerview.rx.DataObserver;
 

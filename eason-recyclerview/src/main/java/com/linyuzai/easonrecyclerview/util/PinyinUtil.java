@@ -1,4 +1,4 @@
-package com.linyuzai.easonrecyclerview;
+package com.linyuzai.easonrecyclerview.util;
 
 import com.github.promeg.pinyinhelper.Pinyin;
 
@@ -24,24 +24,24 @@ public class PinyinUtil {
      *
      * @return if return false, index should be #
      */
-    static boolean matchingLetter(String inputString) {
+    public static boolean matchingLetter(String inputString) {
         return Pattern.matches(PATTERN_LETTER, inputString);
     }
 
-    static boolean matchingPolyphone(String inputString) {
+    public static boolean matchingPolyphone(String inputString) {
         return Pattern.matches(PATTERN_POLYPHONE, inputString);
     }
 
-    static String gePolyphoneInitial(String inputString) {
+    public static String gePolyphoneInitial(String inputString) {
         return inputString.substring(1, 2);
     }
 
-    static String getPolyphoneRealPinyin(String inputString) {
+    public static String getPolyphoneRealPinyin(String inputString) {
         String[] splits = inputString.split("#");
         return splits[1];
     }
 
-    static String getPolyphoneRealHanzi(String inputString) {
+    public static String getPolyphoneRealHanzi(String inputString) {
         String[] splits = inputString.split("#");
         return splits[2];
     }

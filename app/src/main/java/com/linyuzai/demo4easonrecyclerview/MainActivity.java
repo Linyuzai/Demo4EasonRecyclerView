@@ -14,7 +14,7 @@ import android.widget.Toast;
 
 import com.linyuzai.easonrecyclerview.EasonRecyclerView;
 import com.linyuzai.easonrecyclerview.IndexBar;
-import com.linyuzai.easonrecyclerview.Indexable;
+import com.linyuzai.easonrecyclerview.index.Indexable;
 import com.linyuzai.easonrecyclerview.IndexableAdapter;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.header.ClassicsHeader;

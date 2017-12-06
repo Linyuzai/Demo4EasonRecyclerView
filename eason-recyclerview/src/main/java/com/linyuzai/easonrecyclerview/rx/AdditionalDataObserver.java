@@ -3,7 +3,7 @@ package com.linyuzai.easonrecyclerview.rx;
 /**
  * Created by YoKey on 16/10/13.
  */
-public class HeaderFooterDataObserver<T> {
+public class AdditionalDataObserver<T> {
     /**
      * This method is called when the entire data set has changed,
      * refresh UI

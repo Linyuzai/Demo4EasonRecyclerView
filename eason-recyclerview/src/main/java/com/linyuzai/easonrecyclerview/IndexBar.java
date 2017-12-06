@@ -10,6 +10,8 @@ import android.text.TextUtils;
 import android.util.TypedValue;
 import android.view.View;
 
+import com.linyuzai.easonrecyclerview.index.IndexableWrapper;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;

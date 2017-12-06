@@ -1,4 +1,4 @@
-package com.linyuzai.easonrecyclerview;
+package com.linyuzai.easonrecyclerview.index;
 
 /**
  * Created by YoKey on 16/10/9.

@@ -5,6 +5,12 @@ import android.util.SparseArray;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.linyuzai.easonrecyclerview.custom.AbstractAdditionalAdapter;
+import com.linyuzai.easonrecyclerview.custom.IndexableSuffixAdapter;
+import com.linyuzai.easonrecyclerview.custom.IndexablePrefixAdapter;
+import com.linyuzai.easonrecyclerview.index.Indexable;
+import com.linyuzai.easonrecyclerview.index.IndexableWrapper;
+
 import java.util.ArrayList;
 
 /**
@@ -18,8 +24,8 @@ class RealAdapter<T extends Indexable> extends RecyclerView.Adapter<RecyclerView
     private ArrayList<IndexableWrapper<T>> mFooterDatasList = new ArrayList<>();
     private IndexableAdapter<T> mAdapter;
 
-    private SparseArray<IndexableHeaderAdapter> mHeaderAdapterMap = new SparseArray<>();
-    private SparseArray<IndexableFooterAdapter> mFooterAdapterMap = new SparseArray<>();
+    private SparseArray<IndexablePrefixAdapter> mHeaderAdapterMap = new SparseArray<>();
+    private SparseArray<IndexableSuffixAdapter> mFooterAdapterMap = new SparseArray<>();
 
     private IndexableAdapter.OnItemTitleClickListener mTitleClickListener;
     private IndexableAdapter.OnItemContentClickListener<T> mContentClickListener;
@@ -30,14 +36,14 @@ class RealAdapter<T extends Indexable> extends RecyclerView.Adapter<RecyclerView
         this.mAdapter = adapter;
     }
 
-    void addIndexableHeaderAdapter(IndexableHeaderAdapter adapter) {
+    void addIndexableHeaderAdapter(IndexablePrefixAdapter adapter) {
         mHeaderDatasList.addAll(0, adapter.getDatas());
         mDatasList.addAll(0, adapter.getDatas());
         mHeaderAdapterMap.put(adapter.getItemViewType(), adapter);
         notifyDataSetChanged();
     }
 
-    void removeIndexableHeaderAdapter(IndexableHeaderAdapter adapter) {
+    void removeIndexableHeaderAdapter(IndexablePrefixAdapter adapter) {
         mHeaderDatasList.removeAll(adapter.getDatas());
         if (mDatasList.size() > 0) {
             mDatasList.removeAll(adapter.getDatas());
@@ -46,14 +52,14 @@ class RealAdapter<T extends Indexable> extends RecyclerView.Adapter<RecyclerView
         notifyDataSetChanged();
     }
 
-    void addIndexableFooterAdapter(IndexableFooterAdapter adapter) {
+    void addIndexableFooterAdapter(IndexableSuffixAdapter adapter) {
         mFooterDatasList.addAll(adapter.getDatas());
         mDatasList.addAll(adapter.getDatas());
         mFooterAdapterMap.put(adapter.getItemViewType(), adapter);
         notifyDataSetChanged();
     }
 
-    void removeIndexableFooterAdapter(IndexableFooterAdapter adapter) {
+    void removeIndexableFooterAdapter(IndexableSuffixAdapter adapter) {
         mFooterDatasList.removeAll(adapter.getDatas());
         if (mDatasList.size() > 0) {
             mDatasList.removeAll(adapter.getDatas());
@@ -91,7 +97,7 @@ class RealAdapter<T extends Indexable> extends RecyclerView.Adapter<RecyclerView
         } else if (viewType == IndexableWrapper.TYPE_CONTENT) {
             holder = mAdapter.onCreateContentViewHolder(parent);
         } else {
-            AbstractHeaderFooterAdapter adapter;
+            AbstractAdditionalAdapter adapter;
             if (mHeaderAdapterMap.indexOfKey(viewType) >= 0) {
                 adapter = mHeaderAdapterMap.get(viewType);
             } else {
@@ -115,7 +121,7 @@ class RealAdapter<T extends Indexable> extends RecyclerView.Adapter<RecyclerView
                         mContentClickListener.onItemClick(v, wrapper.getOriginalPosition(), position, wrapper.getData());
                     }
                 } else {
-                    AbstractHeaderFooterAdapter adapter;
+                    AbstractAdditionalAdapter adapter;
                     if (mHeaderAdapterMap.indexOfKey(viewType) >= 0) {
                         adapter = mHeaderAdapterMap.get(viewType);
                     } else {
@@ -123,7 +129,7 @@ class RealAdapter<T extends Indexable> extends RecyclerView.Adapter<RecyclerView
                     }
 
                     if (adapter != null) {
-                        AbstractHeaderFooterAdapter.OnItemClickListener listener = adapter.getOnItemClickListener();
+                        AbstractAdditionalAdapter.OnItemClickListener listener = adapter.getOnItemClickListener();
                         if (listener != null) {
                             listener.onItemClick(v, position, wrapper.getData());
                         }
@@ -150,7 +156,7 @@ class RealAdapter<T extends Indexable> extends RecyclerView.Adapter<RecyclerView
                         return true;
                     }
                 } else {
-                    AbstractHeaderFooterAdapter adapter;
+                    AbstractAdditionalAdapter adapter;
                     if (mHeaderAdapterMap.indexOfKey(viewType) >= 0) {
                         adapter = mHeaderAdapterMap.get(viewType);
                     } else {
@@ -158,7 +164,7 @@ class RealAdapter<T extends Indexable> extends RecyclerView.Adapter<RecyclerView
                     }
 
                     if (adapter != null) {
-                        AbstractHeaderFooterAdapter.OnItemLongClickListener listener = adapter.getOnItemLongClickListener();
+                        AbstractAdditionalAdapter.OnItemLongClickListener listener = adapter.getOnItemLongClickListener();
                         if (listener != null) {
                             return listener.onItemLongClick(v, position, wrapper.getData());
                         }
@@ -183,7 +189,7 @@ class RealAdapter<T extends Indexable> extends RecyclerView.Adapter<RecyclerView
         } else if (viewType == IndexableWrapper.TYPE_CONTENT) {
             mAdapter.onBindContentViewHolder(holder, item.getData());
         } else {
-            AbstractHeaderFooterAdapter adapter;
+            AbstractAdditionalAdapter adapter;
             if (mHeaderAdapterMap.indexOfKey(viewType) >= 0) {
                 adapter = mHeaderAdapterMap.get(viewType);
             } else {
