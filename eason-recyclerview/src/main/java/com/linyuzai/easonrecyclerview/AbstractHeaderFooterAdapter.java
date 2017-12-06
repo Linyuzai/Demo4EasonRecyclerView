@@ -20,7 +20,7 @@ abstract class AbstractHeaderFooterAdapter<T> {
     private final HeaderFooterDataObservable mDataSetObservable = new HeaderFooterDataObservable();
     private final IndexBarDataObservable mIndexBarDataSetObservable = new IndexBarDataObservable();
 
-    ArrayList<IndexWrapper<T>> mIndexWrapperList = new ArrayList<>();
+    ArrayList<IndexableWrapper<T>> mIndexableWrapperList = new ArrayList<>();
     protected OnItemClickListener<T> mListener;
     protected OnItemLongClickListener<T> mLongListener;
 
@@ -38,30 +38,30 @@ abstract class AbstractHeaderFooterAdapter<T> {
         this.mIndexTitle = indexTitle;
 
         if (indexTitle != null) {
-            IndexWrapper<T> wrapper = wrapEntity();
-            wrapper.setItemType(IndexWrapper.TYPE_TITLE);
+            IndexableWrapper<T> wrapper = wrapEntity();
+            wrapper.setItemType(IndexableWrapper.TYPE_TITLE);
         }
         for (int i = 0; i < datas.size(); i++) {
-            IndexWrapper<T> wrapper = wrapEntity();
+            IndexableWrapper<T> wrapper = wrapEntity();
             wrapper.setData(datas.get(i));
         }
     }
 
-    private IndexWrapper<T> wrapEntity() {
-        IndexWrapper<T> wrapper = new IndexWrapper<>();
+    private IndexableWrapper<T> wrapEntity() {
+        IndexableWrapper<T> wrapper = new IndexableWrapper<>();
         wrapper.setIndex(mIndex);
         wrapper.setIndexTitle(mIndexTitle);
         wrapper.setHeaderFooterType(getHeaderFooterType());
-        mIndexWrapperList.add(wrapper);
+        mIndexableWrapperList.add(wrapper);
         return wrapper;
     }
 
-    private IndexWrapper<T> wrapEntity(int pos) {
-        IndexWrapper<T> wrapper = new IndexWrapper<>();
+    private IndexableWrapper<T> wrapEntity(int pos) {
+        IndexableWrapper<T> wrapper = new IndexableWrapper<>();
         wrapper.setIndex(mIndex);
         wrapper.setIndexTitle(mIndexTitle);
         wrapper.setHeaderFooterType(getHeaderFooterType());
-        mIndexWrapperList.add(pos, wrapper);
+        mIndexableWrapperList.add(pos, wrapper);
         return wrapper;
     }
 
@@ -80,23 +80,23 @@ abstract class AbstractHeaderFooterAdapter<T> {
     }
 
     public void addData(T data) {
-        int size = mIndexWrapperList.size();
+        int size = mIndexableWrapperList.size();
 
-        IndexWrapper<T> wrapper = wrapEntity();
+        IndexableWrapper<T> wrapper = wrapEntity();
         wrapper.setItemType(getItemViewType());
         wrapper.setData(data);
 
         if (size > 0) {
-            mDataSetObservable.notifyAdd(getHeaderFooterType() == IndexWrapper.TYPE_HEADER, mIndexWrapperList.get(size - 1), wrapper);
+            mDataSetObservable.notifyAdd(getHeaderFooterType() == IndexableWrapper.TYPE_HEADER, mIndexableWrapperList.get(size - 1), wrapper);
             mIndexBarDataSetObservable.notifyChanged();
         }
     }
 
     public void removeData(T data) {
-        for (IndexWrapper wrapper : mIndexWrapperList) {
+        for (IndexableWrapper wrapper : mIndexableWrapperList) {
             if (wrapper.getData() == data) {
-                mIndexWrapperList.remove(wrapper);
-                mDataSetObservable.notifyRemove(getHeaderFooterType() == IndexWrapper.TYPE_HEADER, wrapper);
+                mIndexableWrapperList.remove(wrapper);
+                mDataSetObservable.notifyRemove(getHeaderFooterType() == IndexableWrapper.TYPE_HEADER, wrapper);
                 mIndexBarDataSetObservable.notifyChanged();
                 return;
             }
@@ -104,21 +104,21 @@ abstract class AbstractHeaderFooterAdapter<T> {
     }
 
     int getHeaderFooterType() {
-        return IndexWrapper.TYPE_HEADER;
+        return IndexableWrapper.TYPE_HEADER;
     }
 
     public void addData(int position, T data) {
-        int size = mIndexWrapperList.size();
+        int size = mIndexableWrapperList.size();
         if (position >= size) {
             return;
         }
 
-        IndexWrapper<T> wrapper = wrapEntity(position + 1);
+        IndexableWrapper<T> wrapper = wrapEntity(position + 1);
         wrapper.setItemType(getItemViewType());
         wrapper.setData(data);
 
         if (size > 0) {
-            mDataSetObservable.notifyAdd(getHeaderFooterType() == IndexWrapper.TYPE_HEADER, mIndexWrapperList.get(position), wrapper);
+            mDataSetObservable.notifyAdd(getHeaderFooterType() == IndexableWrapper.TYPE_HEADER, mIndexableWrapperList.get(position), wrapper);
             mIndexBarDataSetObservable.notifyChanged();
         }
     }
@@ -130,7 +130,7 @@ abstract class AbstractHeaderFooterAdapter<T> {
     }
 
     public void addDatas(int position, List<T> datas) {
-        int size = mIndexWrapperList.size();
+        int size = mIndexableWrapperList.size();
         if (position >= size) {
             return;
         }
@@ -153,13 +153,13 @@ abstract class AbstractHeaderFooterAdapter<T> {
         return mLongListener;
     }
 
-    ArrayList<IndexWrapper<T>> getDatas() {
-        for (IndexWrapper<T> wrapper : mIndexWrapperList) {
-            if (wrapper.getItemType() == IndexWrapper.TYPE_CONTENT) {
+    ArrayList<IndexableWrapper<T>> getDatas() {
+        for (IndexableWrapper<T> wrapper : mIndexableWrapperList) {
+            if (wrapper.getItemType() == IndexableWrapper.TYPE_CONTENT) {
                 wrapper.setItemType(getItemViewType());
             }
         }
-        return mIndexWrapperList;
+        return mIndexableWrapperList;
     }
 
     void registerDataSetObserver(HeaderFooterDataObserver observer) {

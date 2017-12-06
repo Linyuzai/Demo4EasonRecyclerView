@@ -1,7 +1,5 @@
 package com.linyuzai.easonrecyclerview;
 
-import android.support.v7.widget.RecyclerView;
-
 import java.util.List;
 
 /**
@@ -16,7 +14,7 @@ public abstract class IndexableHeaderAdapter<T> extends AbstractHeaderFooterAdap
 
     @Override
     int getHeaderFooterType() {
-        return IndexWrapper.TYPE_HEADER;
+        return IndexableWrapper.TYPE_HEADER;
     }
 
     /**

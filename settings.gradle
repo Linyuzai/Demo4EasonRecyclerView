@@ -1,1 +1,1 @@
-include ':app', ':easonrecyclerview'
+include ':app', ':eason-recyclerview'

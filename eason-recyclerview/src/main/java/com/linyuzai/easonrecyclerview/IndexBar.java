@@ -25,7 +25,7 @@ public class IndexBar extends View {
     private List<String> mIndexList = new ArrayList<>();
     // 首字母 到 mIndexList 的映射
     private HashMap<String, Integer> mMapping = new HashMap<>();
-    private ArrayList<IndexWrapper> mDatas;
+    private ArrayList<IndexableWrapper> mDatas;
 
     private int mSelectionPosition;
     private float mIndexHeight;
@@ -204,7 +204,7 @@ public class IndexBar extends View {
         return mIndexList;
     }
 
-    void setDatas(boolean showAllLetter, ArrayList<IndexWrapper> datas) {
+    void setDatas(boolean showAllLetter, ArrayList<IndexableWrapper> datas) {
         this.mDatas = datas;
         this.mIndexList.clear();
         this.mMapping.clear();
@@ -216,8 +216,8 @@ public class IndexBar extends View {
             tempHeaderList = new ArrayList<>();
         }
         for (int i = 0; i < datas.size(); i++) {
-            IndexWrapper wrapper = datas.get(i);
-            if (wrapper.getItemType() == IndexWrapper.TYPE_TITLE || wrapper.getIndexTitle() == null) {
+            IndexableWrapper wrapper = datas.get(i);
+            if (wrapper.getItemType() == IndexableWrapper.TYPE_TITLE || wrapper.getIndexTitle() == null) {
                 String index = wrapper.getIndex();
                 if (!TextUtils.isEmpty(index)) {
                     if (!showAllLetter) {
@@ -226,9 +226,9 @@ public class IndexBar extends View {
                         if (EasonRecyclerView.INDEX_SIGN.equals(index)) {
                             mIndexList.add(EasonRecyclerView.INDEX_SIGN);
                         } else if (mIndexList.indexOf(index) < 0) {
-                            if (wrapper.getHeaderFooterType() == IndexWrapper.TYPE_HEADER && tempHeaderList.indexOf(index) < 0) {
+                            if (wrapper.getHeaderFooterType() == IndexableWrapper.TYPE_HEADER && tempHeaderList.indexOf(index) < 0) {
                                 tempHeaderList.add(index);
-                            } else if (wrapper.getHeaderFooterType() == IndexWrapper.TYPE_FOOTER) {
+                            } else if (wrapper.getHeaderFooterType() == IndexableWrapper.TYPE_FOOTER) {
                                 mIndexList.add(index);
                             }
                         }
@@ -248,7 +248,7 @@ public class IndexBar extends View {
     void setSelection(int firstVisibleItemPosition) {
         if (mDatas == null || mDatas.size() <= firstVisibleItemPosition || firstVisibleItemPosition < 0)
             return;
-        IndexWrapper wrapper = mDatas.get(firstVisibleItemPosition);
+        IndexableWrapper wrapper = mDatas.get(firstVisibleItemPosition);
         int position = mIndexList.indexOf(wrapper.getIndex());
 
         if (mSelectionPosition != position && position >= 0) {

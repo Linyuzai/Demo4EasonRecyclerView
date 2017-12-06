@@ -12,10 +12,10 @@ import java.util.ArrayList;
  */
 @SuppressWarnings("unchecked")
 class RealAdapter<T extends Indexable> extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-    private ArrayList<IndexWrapper<T>> mDatasList = new ArrayList<>();
-    private ArrayList<IndexWrapper<T>> mDatas;
-    private ArrayList<IndexWrapper<T>> mHeaderDatasList = new ArrayList<>();
-    private ArrayList<IndexWrapper<T>> mFooterDatasList = new ArrayList<>();
+    private ArrayList<IndexableWrapper<T>> mDatasList = new ArrayList<>();
+    private ArrayList<IndexableWrapper<T>> mDatas;
+    private ArrayList<IndexableWrapper<T>> mHeaderDatasList = new ArrayList<>();
+    private ArrayList<IndexableWrapper<T>> mFooterDatasList = new ArrayList<>();
     private IndexableAdapter<T> mAdapter;
 
     private SparseArray<IndexableHeaderAdapter> mHeaderAdapterMap = new SparseArray<>();
@@ -62,7 +62,7 @@ class RealAdapter<T extends Indexable> extends RecyclerView.Adapter<RecyclerView
         notifyDataSetChanged();
     }
 
-    void setDatas(ArrayList<IndexWrapper<T>> datas) {
+    void setDatas(ArrayList<IndexableWrapper<T>> datas) {
         if (mDatas != null && mDatasList.size() > mHeaderDatasList.size() + mFooterDatasList.size()) {
             mDatasList.removeAll(mDatas);
         }
@@ -73,7 +73,7 @@ class RealAdapter<T extends Indexable> extends RecyclerView.Adapter<RecyclerView
         notifyDataSetChanged();
     }
 
-    ArrayList<IndexWrapper<T>> getItems() {
+    ArrayList<IndexableWrapper<T>> getItems() {
         return mDatasList;
     }
 
@@ -86,9 +86,9 @@ class RealAdapter<T extends Indexable> extends RecyclerView.Adapter<RecyclerView
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, final int viewType) {
         final RecyclerView.ViewHolder holder;
 
-        if (viewType == IndexWrapper.TYPE_TITLE) {
+        if (viewType == IndexableWrapper.TYPE_TITLE) {
             holder = mAdapter.onCreateTitleViewHolder(parent);
-        } else if (viewType == IndexWrapper.TYPE_CONTENT) {
+        } else if (viewType == IndexableWrapper.TYPE_CONTENT) {
             holder = mAdapter.onCreateContentViewHolder(parent);
         } else {
             AbstractHeaderFooterAdapter adapter;
@@ -105,12 +105,12 @@ class RealAdapter<T extends Indexable> extends RecyclerView.Adapter<RecyclerView
             public void onClick(View v) {
                 int position = holder.getAdapterPosition();
                 if (position == RecyclerView.NO_POSITION) return;
-                IndexWrapper<T> wrapper = mDatasList.get(position);
-                if (viewType == IndexWrapper.TYPE_TITLE) {
+                IndexableWrapper<T> wrapper = mDatasList.get(position);
+                if (viewType == IndexableWrapper.TYPE_TITLE) {
                     if (mTitleClickListener != null) {
                         mTitleClickListener.onItemClick(v, position, wrapper.getIndexTitle());
                     }
-                } else if (viewType == IndexWrapper.TYPE_CONTENT) {
+                } else if (viewType == IndexableWrapper.TYPE_CONTENT) {
                     if (mContentClickListener != null) {
                         mContentClickListener.onItemClick(v, wrapper.getOriginalPosition(), position, wrapper.getData());
                     }
@@ -136,14 +136,14 @@ class RealAdapter<T extends Indexable> extends RecyclerView.Adapter<RecyclerView
             @Override
             public boolean onLongClick(View v) {
                 int position = holder.getAdapterPosition();
-                IndexWrapper<T> wrapper = mDatasList.get(position);
-                if (viewType == IndexWrapper.TYPE_TITLE) {
+                IndexableWrapper<T> wrapper = mDatasList.get(position);
+                if (viewType == IndexableWrapper.TYPE_TITLE) {
                     if (mTitleLongClickListener != null) {
                         return mTitleLongClickListener.onItemLongClick(v, position, wrapper.getIndexTitle());
                     } else {
                         return true;
                     }
-                } else if (viewType == IndexWrapper.TYPE_CONTENT) {
+                } else if (viewType == IndexableWrapper.TYPE_CONTENT) {
                     if (mContentLongClickListener != null) {
                         return mContentLongClickListener.onItemLongClick(v, wrapper.getOriginalPosition(), position, wrapper.getData());
                     } else {
@@ -172,15 +172,15 @@ class RealAdapter<T extends Indexable> extends RecyclerView.Adapter<RecyclerView
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        IndexWrapper<T> item = mDatasList.get(position);
+        IndexableWrapper<T> item = mDatasList.get(position);
 
         int viewType = getItemViewType(position);
-        if (viewType == IndexWrapper.TYPE_TITLE) {
+        if (viewType == IndexableWrapper.TYPE_TITLE) {
             if (View.INVISIBLE == holder.itemView.getVisibility()) {
                 holder.itemView.setVisibility(View.VISIBLE);
             }
             mAdapter.onBindTitleViewHolder(holder, item.getIndexTitle());
-        } else if (viewType == IndexWrapper.TYPE_CONTENT) {
+        } else if (viewType == IndexableWrapper.TYPE_CONTENT) {
             mAdapter.onBindContentViewHolder(holder, item.getData());
         } else {
             AbstractHeaderFooterAdapter adapter;
@@ -214,13 +214,13 @@ class RealAdapter<T extends Indexable> extends RecyclerView.Adapter<RecyclerView
         this.mContentLongClickListener = listener;
     }
 
-    void addHeaderFooterData(boolean header, IndexWrapper preData, IndexWrapper data) {
+    void addHeaderFooterData(boolean header, IndexableWrapper preData, IndexableWrapper data) {
         processAddHeaderFooterData(header ? mHeaderDatasList : mFooterDatasList, preData, data);
     }
 
-    private void processAddHeaderFooterData(ArrayList<IndexWrapper<T>> list, IndexWrapper preData, IndexWrapper data) {
+    private void processAddHeaderFooterData(ArrayList<IndexableWrapper<T>> list, IndexableWrapper preData, IndexableWrapper data) {
         for (int i = 0; i < list.size(); i++) {
-            IndexWrapper wrapper = list.get(i);
+            IndexableWrapper wrapper = list.get(i);
             if (wrapper == preData) {
                 int index = i + 1;
                 list.add(index, data);
@@ -234,13 +234,13 @@ class RealAdapter<T extends Indexable> extends RecyclerView.Adapter<RecyclerView
         }
     }
 
-    void removeHeaderFooterData(boolean header, IndexWrapper data) {
+    void removeHeaderFooterData(boolean header, IndexableWrapper data) {
         processremoveHeaderFooterData(header ? mHeaderDatasList : mFooterDatasList, data);
     }
 
-    private void processremoveHeaderFooterData(ArrayList<IndexWrapper<T>> list, IndexWrapper data) {
+    private void processremoveHeaderFooterData(ArrayList<IndexableWrapper<T>> list, IndexableWrapper data) {
         for (int i = 0; i < list.size(); i++) {
-            IndexWrapper wrapper = list.get(i);
+            IndexableWrapper wrapper = list.get(i);
             if (wrapper == data) {
                 list.remove(data);
                 mDatasList.remove(data);
