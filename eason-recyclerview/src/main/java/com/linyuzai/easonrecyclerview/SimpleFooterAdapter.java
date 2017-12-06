@@ -19,7 +19,7 @@ public class SimpleFooterAdapter<T extends Indexable> extends IndexableFooterAda
 
     @Override
     public int getItemViewType() {
-        return IndexWrapper.TYPE_CONTENT;
+        return IndexableWrapper.TYPE_CONTENT;
     }
 
     @Override

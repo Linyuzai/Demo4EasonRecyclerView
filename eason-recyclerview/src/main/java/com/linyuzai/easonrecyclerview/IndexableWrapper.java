@@ -3,7 +3,7 @@ package com.linyuzai.easonrecyclerview;
 /**
  * Created by YoKey on 16/10/6.
  */
-public class IndexWrapper<T> {
+public class IndexableWrapper<T> {
     static final int TYPE_TITLE = Integer.MAX_VALUE - 1;
     static final int TYPE_CONTENT = Integer.MAX_VALUE;
 
@@ -19,10 +19,10 @@ public class IndexWrapper<T> {
     private int itemType = TYPE_CONTENT;
     private int headerFooterType;
 
-    IndexWrapper() {
+    IndexableWrapper() {
     }
 
-    IndexWrapper(String index, int itemType) {
+    IndexableWrapper(String index, int itemType) {
         this.index = index;
         this.indexTitle = index;
         this.pinyin = index;

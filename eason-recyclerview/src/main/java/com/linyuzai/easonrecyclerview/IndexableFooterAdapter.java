@@ -14,7 +14,7 @@ public abstract class IndexableFooterAdapter<T> extends AbstractHeaderFooterAdap
 
     @Override
     int getHeaderFooterType() {
-        return IndexWrapper.TYPE_FOOTER;
+        return IndexableWrapper.TYPE_FOOTER;
     }
 
     /**
