@@ -63,7 +63,7 @@ public class MainActivity extends AppCompatActivity {
                 }, 2000);
             }
         });
-        eason.setOverlayStyleAtCenter();
+        eason.setOverlayAtCenter();
         adapter = new EasonAdapter();
         adapter.setOnItemContentClickListener(new IndexableAdapter.OnItemContentClickListener<IndexData>() {
             @Override

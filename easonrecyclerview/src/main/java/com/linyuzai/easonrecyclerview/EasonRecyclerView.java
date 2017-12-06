@@ -288,7 +288,7 @@ public class EasonRecyclerView extends FrameLayout {
     /**
      * display Material Design OverlayView
      */
-    public void setOverlayStyleWithMaterialDesign(int color) {
+    public void setOverlayWithMaterialDesign(int color) {
         if (mMDOverlay == null) {
             initMDOverlay(color);
         } else {
@@ -300,7 +300,7 @@ public class EasonRecyclerView extends FrameLayout {
     /**
      * display Center OverlayView
      */
-    public void setOverlayStyleAtCenter() {
+    public void setOverlayAtCenter() {
         if (mCenterOverlay == null) {
             initCenterOverlay();
         }
