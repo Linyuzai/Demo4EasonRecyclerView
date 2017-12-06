@@ -21,6 +21,7 @@ import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.FrameLayout;
 import android.widget.TextView;
@@ -359,10 +360,12 @@ public class EasonRecyclerView extends FrameLayout {
         mRecy.setVerticalScrollBarEnabled(false);
         mRecy.setOverScrollMode(View.OVER_SCROLL_NEVER);
         if (isRefresh) {
+            FrameLayout mFrame = new FrameLayout(context);
+            mFrame.addView(mRecy, new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
             mRefresh = new SmartRefreshLayout(context);
-            mRefresh.addView(mRecy, new SmartRefreshLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
+            mRefresh.addView(mFrame, new SmartRefreshLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
             addView(mRefresh, new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
-            setStickyEnable(false);
+            //setStickyEnable(false);
         } else
             addView(mRecy, new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
 
@@ -607,9 +610,15 @@ public class EasonRecyclerView extends FrameLayout {
             }
         });
         for (int i = 0; i < getChildCount(); i++) {
-            if (getChildAt(i) == mRecy) {
+            /*if (getChildAt(i) == mRecy) {
                 mStickyViewHolder.itemView.setVisibility(INVISIBLE);
                 addView(mStickyViewHolder.itemView, i + 1);
+                return;
+            }*/
+            if (getChildAt(i) == mRefresh) {
+                //if (getChildAt(i) == mRecy) {//修改
+                mStickyViewHolder.itemView.setVisibility(INVISIBLE);
+                ((ViewGroup) mRefresh.getChildAt(0)).addView(mStickyViewHolder.itemView, 1);
                 return;
             }
         }
