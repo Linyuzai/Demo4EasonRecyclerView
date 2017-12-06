@@ -105,6 +105,10 @@ public class IndexBar extends View {
         super(context);
     }
 
+    public void init(Config config) {
+        init(config.background, config.textColor, config.focusTextColor, config.textSize, config.textSpace);
+    }
+
     void init(Drawable barBg, int barTextColor, int barFocusTextColor, float barTextSize, float textSpace) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
             setBackground(barBg);

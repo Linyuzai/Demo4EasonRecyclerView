@@ -325,6 +325,10 @@ public class EasonRecyclerView extends FrameLayout {
         return mRefresh;
     }
 
+    public IndexBar getIndexBar() {
+        return mIndexBar;
+    }
+
     /**
      * Set the enabled state of this IndexBar.
      */
