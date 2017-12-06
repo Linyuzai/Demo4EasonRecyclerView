@@ -97,7 +97,7 @@ public class EasonRecyclerView extends FrameLayout {
     private Comparator mComparator;
     private Handler mHandler;
 
-    private HeaderFooterDataObserver<IndexableWrapper> mHeaderFooterDataSetObserver = new HeaderFooterDataObserver<IndexableWrapper>() {
+    private HeaderFooterDataObserver<IndexWrapper> mHeaderFooterDataSetObserver = new HeaderFooterDataObserver<IndexWrapper>() {
         @Override
         public void onChanged() {
             if (mRealAdapter == null) return;
@@ -105,13 +105,13 @@ public class EasonRecyclerView extends FrameLayout {
         }
 
         @Override
-        public void onAdd(boolean header, IndexableWrapper preData, IndexableWrapper data) {
+        public void onAdd(boolean header, IndexWrapper preData, IndexWrapper data) {
             if (mRealAdapter == null) return;
             mRealAdapter.addHeaderFooterData(header, preData, data);
         }
 
         @Override
-        public void onRemove(boolean header, IndexableWrapper data) {
+        public void onRemove(boolean header, IndexWrapper data) {
             if (mRealAdapter == null) return;
             mRealAdapter.removeHeaderFooterData(header, data);
         }
@@ -267,7 +267,7 @@ public class EasonRecyclerView extends FrameLayout {
     /**
      * set sort-mode
      */
-    public <T extends Indexable> void setComparator(Comparator<IndexableWrapper<T>> comparator) {
+    public <T extends Indexable> void setComparator(Comparator<IndexWrapper<T>> comparator) {
         this.mComparator = comparator;
     }
 
@@ -440,9 +440,9 @@ public class EasonRecyclerView extends FrameLayout {
                 @Override
                 public int getSpanSize(int position) {
                     int spanSize = 0;
-                    if (mRealAdapter.getItemViewType(position) == IndexableWrapper.TYPE_TITLE) {
+                    if (mRealAdapter.getItemViewType(position) == IndexWrapper.TYPE_TITLE) {
                         spanSize = gridLayoutManager.getSpanCount();
-                    } else if (mRealAdapter.getItemViewType(position) == IndexableWrapper.TYPE_CONTENT) {
+                    } else if (mRealAdapter.getItemViewType(position) == IndexWrapper.TYPE_CONTENT) {
                         spanSize = 1;
                     }
                     return spanSize;
@@ -510,12 +510,12 @@ public class EasonRecyclerView extends FrameLayout {
         mIndexBar.setSelection(firstItemPosition);
 
         if (!mStickyEnable) return;
-        ArrayList<IndexableWrapper> list = mRealAdapter.getItems();
+        ArrayList<IndexWrapper> list = mRealAdapter.getItems();
         if (mStickyViewHolder != null && list.size() > firstItemPosition) {
-            IndexableWrapper wrapper = list.get(firstItemPosition);
+            IndexWrapper wrapper = list.get(firstItemPosition);
             String wrapperTitle = wrapper.getIndexTitle();
 
-            if (IndexableWrapper.TYPE_TITLE == wrapper.getItemType()) {
+            if (IndexWrapper.TYPE_TITLE == wrapper.getItemType()) {
                 if (mLastInvisibleRecyclerViewItemView != null && mLastInvisibleRecyclerViewItemView.getVisibility() == INVISIBLE) {
                     mLastInvisibleRecyclerViewItemView.setVisibility(VISIBLE);
                     mLastInvisibleRecyclerViewItemView = null;
@@ -552,11 +552,11 @@ public class EasonRecyclerView extends FrameLayout {
         }
     }
 
-    private void processScroll(LinearLayoutManager layoutManager, ArrayList<IndexableWrapper> list, int position, String title) {
-        IndexableWrapper nextWrapper = list.get(position);
+    private void processScroll(LinearLayoutManager layoutManager, ArrayList<IndexWrapper> list, int position, String title) {
+        IndexWrapper nextWrapper = list.get(position);
         View nextTitleView = layoutManager.findViewByPosition(position);
         if (nextTitleView == null) return;
-        if (nextWrapper.getItemType() == IndexableWrapper.TYPE_TITLE) {
+        if (nextWrapper.getItemType() == IndexWrapper.TYPE_TITLE) {
             if (nextTitleView.getTop() <= mStickyViewHolder.itemView.getHeight() && title != null) {
                 mStickyViewHolder.itemView.setTranslationY(nextTitleView.getTop() - mStickyViewHolder.itemView.getHeight());
             }
@@ -591,7 +591,7 @@ public class EasonRecyclerView extends FrameLayout {
             public void onClick(View v) {
                 if (adapter.getOnItemTitleClickListener() != null) {
                     int position = mIndexBar.getFirstRecyclerViewPositionBySelection();
-                    ArrayList<IndexableWrapper> datas = mRealAdapter.getItems();
+                    ArrayList<IndexWrapper> datas = mRealAdapter.getItems();
                     if (datas.size() > position && position >= 0) {
                         adapter.getOnItemTitleClickListener().onItemClick(
                                 v, position, datas.get(position).getIndexTitle());
@@ -604,7 +604,7 @@ public class EasonRecyclerView extends FrameLayout {
             public boolean onLongClick(View v) {
                 if (adapter.getOnItemTitleLongClickListener() != null) {
                     int position = mIndexBar.getFirstRecyclerViewPositionBySelection();
-                    ArrayList<IndexableWrapper> datas = mRealAdapter.getItems();
+                    ArrayList<IndexWrapper> datas = mRealAdapter.getItems();
                     if (datas.size() > position && position >= 0) {
                         return adapter.getOnItemTitleLongClickListener().onItemLongClick(
                                 v, position, datas.get(position).getIndexTitle());
@@ -712,7 +712,7 @@ public class EasonRecyclerView extends FrameLayout {
         mFuture = mExecutorService.submit(new Runnable() {
             @Override
             public void run() {
-                final ArrayList<IndexableWrapper> datas = transform(mIndexableAdapter.getItems());
+                final ArrayList<IndexWrapper> datas = transform(mIndexableAdapter.getItems());
                 if (datas == null) return;
 
                 getSafeHandler().post(new Runnable() {
@@ -735,9 +735,9 @@ public class EasonRecyclerView extends FrameLayout {
     /**
      * List<T> -> List<Indexable<T>
      */
-    private <T extends Indexable> ArrayList<IndexableWrapper<T>> transform(final List<T> datas) {
+    private <T extends Indexable> ArrayList<IndexWrapper<T>> transform(final List<T> datas) {
         try {
-            TreeMap<String, List<IndexableWrapper<T>>> map = new TreeMap<>(new Comparator<String>() {
+            TreeMap<String, List<IndexWrapper<T>>> map = new TreeMap<>(new Comparator<String>() {
                 @Override
                 public int compare(String lhs, String rhs) {
                     if (lhs.equals(INDEX_SIGN)) {
@@ -750,13 +750,13 @@ public class EasonRecyclerView extends FrameLayout {
             });
 
             for (int i = 0; i < datas.size(); i++) {
-                IndexableWrapper<T> entity = new IndexableWrapper<>();
+                IndexWrapper<T> entity = new IndexWrapper<>();
                 T item = datas.get(i);
                 String indexName = item.getFieldIndexBy();
                 String pinyin = PinyinUtil.getPingYin(indexName);
                 entity.setPinyin(pinyin);
 
-                // init IndexableWrapper
+                // init IndexWrapper
                 if (PinyinUtil.matchingLetter(pinyin)) {
                     entity.setIndex(pinyin.substring(0, 1).toUpperCase());
                     entity.setIndexByField(item.getFieldIndexBy());
@@ -778,10 +778,10 @@ public class EasonRecyclerView extends FrameLayout {
 
                 String inital = entity.getIndex();
 
-                List<IndexableWrapper<T>> list;
+                List<IndexWrapper<T>> list;
                 if (!map.containsKey(inital)) {
                     list = new ArrayList<>();
-                    list.add(new IndexableWrapper<T>(entity.getIndex(), IndexableWrapper.TYPE_TITLE));
+                    list.add(new IndexWrapper<T>(entity.getIndex(), IndexWrapper.TYPE_TITLE));
                     map.put(inital, list);
                 } else {
                     list = map.get(inital);
@@ -790,8 +790,8 @@ public class EasonRecyclerView extends FrameLayout {
                 list.add(entity);
             }
 
-            ArrayList<IndexableWrapper<T>> list = new ArrayList<>();
-            for (List<IndexableWrapper<T>> indexableEntities : map.values()) {
+            ArrayList<IndexWrapper<T>> list = new ArrayList<>();
+            for (List<IndexWrapper<T>> indexableEntities : map.values()) {
                 if (mComparator != null) {
                     Collections.sort(indexableEntities, mComparator);
                 } else {

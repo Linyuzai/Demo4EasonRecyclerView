@@ -19,7 +19,7 @@ public class SimpleHeaderAdapter<T extends Indexable> extends IndexableHeaderAda
 
     @Override
     public int getItemViewType() {
-        return IndexableWrapper.TYPE_CONTENT;
+        return IndexWrapper.TYPE_CONTENT;
     }
 
     @Override

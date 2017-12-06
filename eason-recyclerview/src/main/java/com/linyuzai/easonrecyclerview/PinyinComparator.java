@@ -7,10 +7,10 @@ import java.util.Comparator;
 /**
  * Created by YoKey on 16/10/7.
  */
-class PinyinComparator<T extends Indexable> implements Comparator<IndexableWrapper<T>> {
+class PinyinComparator<T extends Indexable> implements Comparator<IndexWrapper<T>> {
 
     @Override
-    public int compare(IndexableWrapper<T> lhs, IndexableWrapper<T> rhs) {
+    public int compare(IndexWrapper<T> lhs, IndexWrapper<T> rhs) {
         String lhsIndexName = lhs.getIndexByField();
         String rhsIndexName = rhs.getIndexByField();
 

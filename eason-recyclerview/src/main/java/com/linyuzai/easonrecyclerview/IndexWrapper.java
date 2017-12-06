@@ -93,19 +93,19 @@ public class IndexWrapper<T> {
         this.headerFooterType = headerFooterType;
     }
 
-    public boolean isTitle(){
+    public boolean isTitle() {
         return itemType == TYPE_TITLE;
     }
 
-    public boolean isContent(){
+    public boolean isContent() {
         return itemType == TYPE_CONTENT;
     }
 
-    public boolean isHeader(){
+    public boolean isHeader() {
         return headerFooterType == TYPE_HEADER;
     }
 
-    public boolean isFooter(){
+    public boolean isFooter() {
         return headerFooterType == TYPE_FOOTER;
     }
 }

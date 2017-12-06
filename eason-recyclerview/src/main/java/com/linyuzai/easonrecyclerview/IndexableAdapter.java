@@ -131,7 +131,7 @@ public abstract class IndexableAdapter<T extends Indexable> {
     }
 
     public interface IndexCallback<T> {
-        void onFinished(List<IndexableWrapper<T>> datas);
+        void onFinished(List<IndexWrapper<T>> datas);
     }
 
     public interface OnItemTitleClickListener {
