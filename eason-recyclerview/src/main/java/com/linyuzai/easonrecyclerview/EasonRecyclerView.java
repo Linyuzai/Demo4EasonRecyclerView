@@ -132,16 +132,16 @@ public class EasonRecyclerView extends FrameLayout {
     };
 
     public EasonRecyclerView(Context context) {
-        this(context, null, true);
+        this(context, null, true, null);
     }
 
-    public EasonRecyclerView(Context context, @Nullable IndexBar.Config config) {
-        this(context, config, true);
+    public EasonRecyclerView(Context context, @Nullable IndexBar.Config config, @Nullable View topView) {
+        this(context, config, true, topView);
     }
 
-    public EasonRecyclerView(Context context, IndexBar.Config config, boolean isRefresh) {
+    public EasonRecyclerView(Context context, IndexBar.Config config, boolean isRefresh, View topView) {
         super(context);
-        init(context, config, isRefresh);
+        init(context, config, isRefresh, topView);
     }
 
     public EasonRecyclerView(Context context, AttributeSet attrs) {
@@ -343,7 +343,7 @@ public class EasonRecyclerView extends FrameLayout {
         mIndexBar.setVisibility(visible ? VISIBLE : GONE);
     }
 
-    private void init(Context context, IndexBar.Config config, boolean isRefresh) {
+    private void init(Context context, IndexBar.Config config, boolean isRefresh, View topView) {
         this.mContext = context;
         this.mExecutorService = Executors.newSingleThreadExecutor();
         PADDING_RIGHT_OVERLAY = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 80, getResources().getDisplayMetrics());
@@ -374,7 +374,16 @@ public class EasonRecyclerView extends FrameLayout {
             FrameLayout mFrame = new FrameLayout(context);
             mFrame.addView(mRecy, new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
             mRefresh = new SmartRefreshLayout(context);
-            mRefresh.addView(mFrame, new SmartRefreshLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
+            if (topView != null && topView.getLayoutParams() != null) {
+                FrameLayout mTopFrame = new FrameLayout(context);
+                mTopFrame.addView(topView);
+                LayoutParams layoutParams = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
+                layoutParams.topMargin = topView.getLayoutParams().height;
+                mTopFrame.addView(mFrame, layoutParams);
+                mRefresh.addView(mTopFrame, new SmartRefreshLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
+            } else {
+                mRefresh.addView(mFrame, new SmartRefreshLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
+            }
             addView(mRefresh, new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
             //setStickyEnable(false);
         } else

@@ -9,6 +9,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -45,9 +46,13 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         //setContentView(R.layout.activity_main);
         //addContentView();
-        IndexBar.Config config = null;//new IndexBar.Config();
+        IndexBar.Config config = new IndexBar.Config();
         //config.background(Color.LTGRAY).
-        final EasonRecyclerView eason = new EasonRecyclerView(this);
+        View view = new TextView(this);
+        view.setBackgroundColor(Color.BLUE);
+        view.setLayoutParams(new FrameLayout.LayoutParams(200, 200));
+        final EasonRecyclerView eason = new EasonRecyclerView(this, config, view);
+        eason.setStickyEnable(false);
         setContentView(eason, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
         eason.setLayoutManager(new LinearLayoutManager(this));
         eason.getSmartRefreshLayout().setRefreshHeader(new ClassicsHeader(this));
