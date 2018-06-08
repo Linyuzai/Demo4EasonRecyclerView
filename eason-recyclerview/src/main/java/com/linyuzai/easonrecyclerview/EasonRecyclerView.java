@@ -94,7 +94,7 @@ public class EasonRecyclerView extends FrameLayout {
 
     private TextView mCenterOverlay, mMDOverlay;
 
-    private int mBarTextColor, mBarFocusTextColor;
+    private int mBarTextColor, mBarFocusTextColor, mBarPaddingTop;
     private float mBarTextSize, mBarTextSpace, mBarWidth;
     private Drawable mBarBg;
 
@@ -103,6 +103,8 @@ public class EasonRecyclerView extends FrameLayout {
     private int mCompareMode = MODE_FAST;
     private Comparator mComparator;
     private Handler mHandler;
+
+    private View mTopView;
 
     private AdditionalDataObserver<IndexableWrapper> mHeaderFooterDataSetObserver = new AdditionalDataObserver<IndexableWrapper>() {
         @Override
@@ -345,6 +347,7 @@ public class EasonRecyclerView extends FrameLayout {
 
     private void init(Context context, IndexBar.Config config, boolean isRefresh, View topView) {
         this.mContext = context;
+        this.mTopView = topView;
         this.mExecutorService = Executors.newSingleThreadExecutor();
         PADDING_RIGHT_OVERLAY = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 80, getResources().getDisplayMetrics());
 
@@ -354,6 +357,7 @@ public class EasonRecyclerView extends FrameLayout {
             mBarFocusTextColor = ContextCompat.getColor(context, R.color.default_indexBar_selectedTextColor);
             mBarTextSpace = getResources().getDimension(R.dimen.default_indexBar_textSpace);
             mBarWidth = getResources().getDimension(R.dimen.default_indexBar_layout_width);
+            mBarPaddingTop = 0;
         } else {
             mBarTextColor = config.textColor();
             mBarBg = config.background();
@@ -361,6 +365,7 @@ public class EasonRecyclerView extends FrameLayout {
             mBarFocusTextColor = config.focusTextColor();
             mBarTextSpace = config.textSpace();
             mBarWidth = config.width();
+            mBarPaddingTop = config.paddingTop();
         }
 
         if (mContext instanceof Activity) {
@@ -374,12 +379,13 @@ public class EasonRecyclerView extends FrameLayout {
             FrameLayout mFrame = new FrameLayout(context);
             mFrame.addView(mRecy, new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
             mRefresh = new SmartRefreshLayout(context);
-            if (topView != null && topView.getLayoutParams() != null) {
+            if (topView != null) {
                 FrameLayout mTopFrame = new FrameLayout(context);
-                mTopFrame.addView(topView);
                 LayoutParams layoutParams = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
-                layoutParams.topMargin = topView.getLayoutParams().height;
+                if (topView.getLayoutParams() != null)
+                    layoutParams.topMargin = topView.getLayoutParams().height;
                 mTopFrame.addView(mFrame, layoutParams);
+                mTopFrame.addView(topView);
                 mRefresh.addView(mTopFrame, new SmartRefreshLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
             } else {
                 mRefresh.addView(mFrame, new SmartRefreshLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
@@ -391,6 +397,7 @@ public class EasonRecyclerView extends FrameLayout {
 
         mIndexBar = new IndexBar(context);
         mIndexBar.init(mBarBg, mBarTextColor, mBarFocusTextColor, mBarTextSize, mBarTextSpace);
+        mIndexBar.setPadding(0, mBarPaddingTop, 0, 0);
         LayoutParams params = new LayoutParams((int) mBarWidth, LayoutParams.WRAP_CONTENT);
         params.gravity = Gravity.END | Gravity.CENTER_VERTICAL;
         addView(mIndexBar, params);
@@ -638,7 +645,11 @@ public class EasonRecyclerView extends FrameLayout {
             if (getChildAt(i) == mRefresh) {
                 //if (getChildAt(i) == mRecy) {//修改
                 mStickyViewHolder.itemView.setVisibility(INVISIBLE);
-                ((ViewGroup) mRefresh.getChildAt(0)).addView(mStickyViewHolder.itemView, 1);
+                if (mTopView == null) {
+                    ((ViewGroup) mRefresh.getChildAt(0)).addView(mStickyViewHolder.itemView, 1);
+                } else {
+                    ((ViewGroup) ((ViewGroup) mRefresh.getChildAt(0)).getChildAt(0)).addView(mStickyViewHolder.itemView, 1);
+                }
                 return;
             }
         }

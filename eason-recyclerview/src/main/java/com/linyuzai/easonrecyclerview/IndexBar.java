@@ -42,6 +42,7 @@ public class IndexBar extends View {
         private float textSize;
         private float textSpace;
         private int width;
+        private int paddingTop;
 
         public Config background(Drawable background) {
             this.background = background;
@@ -78,6 +79,11 @@ public class IndexBar extends View {
             return this;
         }
 
+        public Config paddingTop(int top) {
+            this.paddingTop = top;
+            return this;
+        }
+
         public Drawable background() {
             return background;
         }
@@ -100,6 +106,10 @@ public class IndexBar extends View {
 
         public int width() {
             return width;
+        }
+
+        public int paddingTop() {
+            return paddingTop;
         }
     }
 

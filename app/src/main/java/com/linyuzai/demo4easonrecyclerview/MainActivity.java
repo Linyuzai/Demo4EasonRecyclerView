@@ -52,7 +52,7 @@ public class MainActivity extends AppCompatActivity {
         view.setBackgroundColor(Color.BLUE);
         view.setLayoutParams(new FrameLayout.LayoutParams(200, 200));
         final EasonRecyclerView eason = new EasonRecyclerView(this, config, view);
-        eason.setStickyEnable(false);
+        //eason.setStickyEnable(false);
         setContentView(eason, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
         eason.setLayoutManager(new LinearLayoutManager(this));
         eason.getSmartRefreshLayout().setRefreshHeader(new ClassicsHeader(this));
