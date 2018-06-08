@@ -46,12 +46,12 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         //setContentView(R.layout.activity_main);
         //addContentView();
-        IndexBar.Config config = new IndexBar.Config();
+        //IndexBar.Config config = new IndexBar.Config();
         //config.background(Color.LTGRAY).
         View view = new TextView(this);
         view.setBackgroundColor(Color.BLUE);
         view.setLayoutParams(new FrameLayout.LayoutParams(200, 200));
-        final EasonRecyclerView eason = new EasonRecyclerView(this, config, view);
+        final EasonRecyclerView eason = new EasonRecyclerView(this, null, view);
         //eason.setStickyEnable(false);
         setContentView(eason, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
         eason.setLayoutManager(new LinearLayoutManager(this));

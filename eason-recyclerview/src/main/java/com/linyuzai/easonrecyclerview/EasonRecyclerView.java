@@ -94,7 +94,7 @@ public class EasonRecyclerView extends FrameLayout {
 
     private TextView mCenterOverlay, mMDOverlay;
 
-    private int mBarTextColor, mBarFocusTextColor, mBarPaddingTop;
+    private int mBarTextColor, mBarFocusTextColor, mBarMarginTop;
     private float mBarTextSize, mBarTextSpace, mBarWidth;
     private Drawable mBarBg;
 
@@ -357,7 +357,7 @@ public class EasonRecyclerView extends FrameLayout {
             mBarFocusTextColor = ContextCompat.getColor(context, R.color.default_indexBar_selectedTextColor);
             mBarTextSpace = getResources().getDimension(R.dimen.default_indexBar_textSpace);
             mBarWidth = getResources().getDimension(R.dimen.default_indexBar_layout_width);
-            mBarPaddingTop = 0;
+            mBarMarginTop = 0;
         } else {
             mBarTextColor = config.textColor();
             mBarBg = config.background();
@@ -365,7 +365,7 @@ public class EasonRecyclerView extends FrameLayout {
             mBarFocusTextColor = config.focusTextColor();
             mBarTextSpace = config.textSpace();
             mBarWidth = config.width();
-            mBarPaddingTop = config.paddingTop();
+            mBarMarginTop = config.marginTop();
         }
 
         if (mContext instanceof Activity) {
@@ -397,9 +397,13 @@ public class EasonRecyclerView extends FrameLayout {
 
         mIndexBar = new IndexBar(context);
         mIndexBar.init(mBarBg, mBarTextColor, mBarFocusTextColor, mBarTextSize, mBarTextSpace);
-        mIndexBar.setPadding(0, mBarPaddingTop, 0, 0);
         LayoutParams params = new LayoutParams((int) mBarWidth, LayoutParams.WRAP_CONTENT);
-        params.gravity = Gravity.END | Gravity.CENTER_VERTICAL;
+        if (mBarMarginTop == IndexBar.Config.CENTER) {
+            params.gravity = Gravity.END | Gravity.RIGHT | Gravity.CENTER_VERTICAL;
+        } else {
+            params.gravity = Gravity.END | Gravity.RIGHT;
+            params.topMargin = mBarMarginTop;
+        }
         addView(mIndexBar, params);
 
         mRealAdapter = new RealAdapter();

@@ -36,13 +36,15 @@ public class IndexBar extends View {
     private Paint mFocusPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
 
     public static class Config {
+
+        public static final int CENTER = -1;
         private Drawable background;
         private int textColor;
         private int focusTextColor;
         private float textSize;
         private float textSpace;
         private int width;
-        private int paddingTop;
+        private int marginTop = CENTER;
 
         public Config background(Drawable background) {
             this.background = background;
@@ -79,8 +81,8 @@ public class IndexBar extends View {
             return this;
         }
 
-        public Config paddingTop(int top) {
-            this.paddingTop = top;
+        public Config marginTop(int top) {
+            this.marginTop = top;
             return this;
         }
 
@@ -108,8 +110,8 @@ public class IndexBar extends View {
             return width;
         }
 
-        public int paddingTop() {
-            return paddingTop;
+        public int marginTop() {
+            return marginTop;
         }
     }
 
